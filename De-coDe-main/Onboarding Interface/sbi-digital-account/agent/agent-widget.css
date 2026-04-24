@@ -1,0 +1,435 @@
+/* ================= SBI AI AGENT SIDEBAR ================= */
+/* All classes prefixed with .sbi-agent- to avoid conflicts */
+
+/* --- Sidebar Container --- */
+.sbi-agent-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 340px;
+    height: 100vh;
+    background: #ffffff;
+    border-left: 2px solid #e0e0e0;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sbi-agent-sidebar.minimized {
+    transform: translateX(100%);
+}
+
+/* --- Header --- */
+.sbi-agent-header {
+    background: linear-gradient(135deg, #002147 0%, #003366 100%);
+    color: #fff;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.sbi-agent-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sbi-agent-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sbi-agent-title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.sbi-agent-subtitle {
+    font-size: 11px;
+    opacity: 0.75;
+    font-weight: 400;
+}
+
+.sbi-agent-header-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.sbi-agent-header-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.sbi-agent-header-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* --- Step Badge --- */
+.sbi-agent-step-bar {
+    background: #f0f4f8;
+    padding: 10px 16px;
+    border-bottom: 1px solid #e8ecf0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.sbi-agent-step-badge {
+    background: #002147;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.sbi-agent-step-name {
+    font-size: 13px;
+    color: #444;
+    font-weight: 500;
+}
+
+/* --- Chat Messages Area --- */
+.sbi-agent-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #fafbfc;
+}
+
+.sbi-agent-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sbi-agent-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sbi-agent-messages::-webkit-scrollbar-thumb {
+    background: #ccd;
+    border-radius: 3px;
+}
+
+/* --- Chat Bubbles --- */
+.sbi-agent-msg {
+    max-width: 90%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.55;
+    word-wrap: break-word;
+    animation: sbiAgentFadeIn 0.3s ease;
+}
+
+@keyframes sbiAgentFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sbi-agent-msg.agent {
+    background: #fff;
+    color: #333;
+    border: 1px solid #e8ecf0;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.sbi-agent-msg.user {
+    background: #002147;
+    color: #fff;
+    border-bottom-right-radius: 4px;
+    align-self: flex-end;
+}
+
+.sbi-agent-msg.agent strong {
+    color: #002147;
+}
+
+/* --- Typing Indicator --- */
+.sbi-agent-typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid #e8ecf0;
+    border-radius: 12px;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    animation: sbiAgentFadeIn 0.3s ease;
+}
+
+.sbi-agent-typing-dot {
+    width: 7px;
+    height: 7px;
+    background: #002147;
+    border-radius: 50%;
+    animation: sbiAgentBounce 1.4s infinite ease-in-out;
+}
+
+.sbi-agent-typing-dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.sbi-agent-typing-dot:nth-child(2) {
+    animation-delay: 0.16s;
+}
+
+.sbi-agent-typing-dot:nth-child(3) {
+    animation-delay: 0.32s;
+}
+
+@keyframes sbiAgentBounce {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0.6);
+        opacity: 0.4;
+    }
+
+    40% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* --- Quick Actions --- */
+.sbi-agent-quick-actions {
+    padding: 8px 16px 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    background: #fafbfc;
+    border-bottom: 1px solid #eff1f4;
+    flex-shrink: 0;
+}
+
+.sbi-agent-quick-btn {
+    background: #eef2f7;
+    border: 1px solid #dde3eb;
+    color: #333;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.sbi-agent-quick-btn:hover {
+    background: #002147;
+    color: #fff;
+    border-color: #002147;
+}
+
+/* --- Input Area --- */
+.sbi-agent-input-area {
+    padding: 12px 16px;
+    background: #fff;
+    border-top: 1px solid #e8ecf0;
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.sbi-agent-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #dde3eb;
+    border-radius: 20px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.sbi-agent-input:focus {
+    border-color: #002147;
+}
+
+.sbi-agent-input::placeholder {
+    color: #aaa;
+}
+
+.sbi-agent-send-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #002147;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.1s;
+    flex-shrink: 0;
+}
+
+.sbi-agent-send-btn:hover {
+    background: #003366;
+}
+
+.sbi-agent-send-btn:active {
+    transform: scale(0.92);
+}
+
+/* --- Floating Toggle Button (when minimized) --- */
+.sbi-agent-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(0, 33, 71, 0.25);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 0;
+    overflow: hidden;
+}
+
+.sbi-agent-toggle:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 24px rgba(0, 33, 71, 0.45);
+}
+
+.sbi-agent-toggle.visible {
+    display: flex;
+}
+
+.sbi-agent-toggle-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 18px;
+    height: 18px;
+    background: #e53935;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+/* --- Powered By Footer --- */
+.sbi-agent-footer {
+    padding: 6px 16px;
+    text-align: center;
+    font-size: 10px;
+    color: #666;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    flex-shrink: 0;
+}
+
+/* --- Voice Mode Controls --- */
+.sbi-agent-voice-controls {
+    display: flex;
+    gap: 8px;
+    margin-right: 4px;
+}
+
+.sbi-agent-mic-btn,
+.sbi-agent-speaker-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid #dde3eb;
+    background: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.sbi-agent-mic-btn:hover,
+.sbi-agent-speaker-btn:hover {
+    background: #f0f4f8;
+    border-color: #002147;
+}
+
+.sbi-agent-mic-btn.active {
+    background: #e53935;
+    color: #fff;
+    border-color: #e53935;
+    animation: sbiAgentPulse 1.5s infinite;
+}
+
+.sbi-agent-speaker-btn.active {
+    background: #002147;
+    color: #fff;
+    border-color: #002147;
+}
+
+@keyframes sbiAgentPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(229, 57, 53, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
+    }
+}
+
+/* --- Responsive: collapse on small screens --- */
+@media (max-width: 768px) {
+    .sbi-agent-sidebar {
+        width: 100%;
+    }
+}

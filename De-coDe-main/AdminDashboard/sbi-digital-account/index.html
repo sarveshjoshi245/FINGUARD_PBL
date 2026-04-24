@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <title>AI Onboarding Platform</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        // Initialize PDF Worker immediately
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+</head>
+</head>
+
+<body>
+
+    <div id="notification">Notification Message</div>
+
+    <div class="role-switch">
+        <button onclick="showPortal('customerPortal')">Customer Portal</button>
+        <button onclick="showAdminLogin()">Admin Portal</button>
+    </div>
+
+    <!-- Admin Login Overlay -->
+    <div id="adminLoginOverlay" class="admin-login-overlay" style="display:none;">
+        <div class="admin-login-card">
+            <div class="admin-login-header">
+                <h2>🔐 Admin Portal</h2>
+                <p>GovBank AI — Secure Access</p>
+            </div>
+            <div class="admin-login-body">
+                <label for="adminUser">Username</label>
+                <input type="text" id="adminUser" placeholder="Enter username" autocomplete="off">
+                <label for="adminPass">Passkey</label>
+                <input type="password" id="adminPass" placeholder="Enter passkey"
+                    onkeydown="if(event.key==='Enter') adminLogin()">
+                <p class="admin-login-error" id="adminLoginError"></p>
+                <button class="admin-login-btn" onclick="adminLogin()">Sign In</button>
+                <button class="admin-login-cancel" onclick="closeAdminLogin()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminPortal" style="display:none;">
+        <div class="layout">
+            <aside class="sidebar">
+                <h2 class="logo">GovBank AI</h2>
+                <button onclick="showSection('engagement')">Engagement</button>
+                <button onclick="showSection('identity')">Identity & Security</button>
+                <button onclick="showSection('workflow')">Workflow</button>
+                <button onclick="showSection('compliance')">Compliance</button>
+                <button onclick="showSection('analytics')">Analytics</button>
+            </aside>
+
+            <main class="content">
+                <div class="topbar" style="margin-bottom: 20px; font-size: 1.2em; font-weight: bold;">AI-Driven Digital
+                    Onboarding & Risk Platform</div>
+
+                <section id="engagement" class="active">
+                    <div class="eng-dashboard">
+
+                        <div class="eng-grid">
+
+                            <!-- Top Left: Real-Time Activity Feed -->
+                            <div class="card eng-card">
+                                <div class="eng-card-header">
+                                    <h2>📡 Real-Time Activity Feed</h2>
+                                    <span class="eng-live-badge">LIVE</span>
+                                </div>
+                                <div class="eng-feed-scroll" id="engFeedList"></div>
+                            </div>
+
+                            <!-- Top Right: Channel Preference -->
+                            <div class="card eng-card">
+                                <h2>📊 Channel Preference</h2>
+                                <p class="eng-subtitle">Voice vs Text interaction split</p>
+                                <canvas id="channelChart"></canvas>
+                                <div class="eng-insight" id="channelInsight"></div>
+                            </div>
+
+                            <!-- Bottom Left: AI Nudge Effectiveness -->
+                            <div class="card eng-card">
+                                <h2>🎯 AI Nudge Effectiveness</h2>
+                                <p class="eng-subtitle">Predictive drop-off prevention results</p>
+                                <div class="eng-nudge-stats">
+                                    <div class="eng-nudge-metric">
+                                        <span class="eng-nudge-val" id="nudgeTotal">150</span>
+                                        <span class="eng-nudge-lbl">Nudges Triggered</span>
+                                    </div>
+                                    <div class="eng-nudge-metric eng-nudge-success">
+                                        <span class="eng-nudge-val">120</span>
+                                        <span class="eng-nudge-lbl">Users Retained</span>
+                                        <span class="eng-nudge-rate">▲ 80% Success</span>
+                                    </div>
+                                    <div class="eng-nudge-metric eng-nudge-drop">
+                                        <span class="eng-nudge-val">30</span>
+                                        <span class="eng-nudge-lbl">Users Dropped</span>
+                                    </div>
+                                </div>
+                                <div class="eng-nudge-bar-wrap">
+                                    <div class="eng-nudge-bar-fill" style="width: 80%;">80% Retained</div>
+                                </div>
+                            </div>
+
+                            <!-- Bottom Right: Top User Queries -->
+                            <div class="card eng-card">
+                                <h2>💬 Top User Queries</h2>
+                                <p class="eng-subtitle">Most common questions asked to the AI</p>
+                                <div id="engQueryList" class="eng-query-list"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <section id="identity">
+                    <div class="sec-dashboard">
+
+                        <!-- Row 1: Security KPIs -->
+                        <div class="sec-kpi-row">
+                            <div class="sec-kpi">
+                                <div class="sec-kpi-icon sec-kpi-green">✅</div>
+                                <div class="sec-kpi-body">
+                                    <span class="sec-kpi-val" id="secKycPass">92%</span>
+                                    <span class="sec-kpi-lbl">KYC Pass Rate</span>
+                                </div>
+                            </div>
+                            <div class="sec-kpi">
+                                <div class="sec-kpi-icon sec-kpi-red">🚫</div>
+                                <div class="sec-kpi-body">
+                                    <span class="sec-kpi-val sec-val-red" id="secFraudBlocked">14</span>
+                                    <span class="sec-kpi-lbl">Fraud Attempts Blocked Today</span>
+                                </div>
+                            </div>
+                            <div class="sec-kpi">
+                                <div class="sec-kpi-icon sec-kpi-amber">👤</div>
+                                <div class="sec-kpi-body">
+                                    <span class="sec-kpi-val sec-val-amber" id="secLivenessFail">8</span>
+                                    <span class="sec-kpi-lbl">Liveness Spoof Detected</span>
+                                </div>
+                            </div>
+                            <div class="sec-kpi">
+                                <div class="sec-kpi-icon sec-kpi-red">🔴</div>
+                                <div class="sec-kpi-body">
+                                    <span class="sec-kpi-val sec-val-red" id="secWatchlistHits">2</span>
+                                    <span class="sec-kpi-lbl">AML Watchlist Alerts</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 2: Live Feed + Forensics -->
+                        <div class="sec-main-row">
+                            <!-- Left: Live Verification Feed -->
+                            <div class="sec-panel sec-feed-panel">
+                                <div class="sec-panel-header">
+                                    <h2>📡 Live Verification Feed</h2>
+                                    <span class="sec-live-dot"></span>
+                                </div>
+                                <table class="sec-feed-table" id="secFeedTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>User</th>
+                                            <th>Check</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="secFeedBody"></tbody>
+                                </table>
+                            </div>
+
+                            <!-- Right: Identity Forensics -->
+                            <div class="sec-panel sec-forensics-panel">
+                                <h2>🔬 Identity Forensics</h2>
+                                <p class="sec-forensics-hint" id="forensicsHint">Click a row in the Live Feed to
+                                    investigate.</p>
+                                <div class="sec-forensics-viewer" id="forensicsViewer" style="display:none;">
+                                    <div class="sec-forensics-images">
+                                        <div class="sec-img-box">
+                                            <div class="sec-img-label">ID Document (Reference)</div>
+                                            <div class="sec-img-placeholder" id="forensicIdImg">
+                                                <span>🪪</span>
+                                                <small id="forensicIdText">ID Scan</small>
+                                            </div>
+                                        </div>
+                                        <div class="sec-confidence-gauge">
+                                            <div class="sec-gauge-ring" id="secGaugeRing">
+                                                <span class="sec-gauge-val" id="secGaugeVal">—</span>
+                                            </div>
+                                            <span class="sec-gauge-label" id="secGaugeLabel">Match Score</span>
+                                        </div>
+                                        <div class="sec-img-box">
+                                            <div class="sec-img-label">Live Selfie (Capture)</div>
+                                            <div class="sec-img-placeholder sec-img-selfie" id="forensicSelfieImg">
+                                                <span>📸</span>
+                                                <small id="forensicSelfieText">Selfie</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sec-forensics-detail" id="forensicsDetail"></div>
+                                    <div class="sec-forensics-actions" id="forensicsActions">
+                                        <button class="sec-btn-verified" onclick="markVerified()">Mark as
+                                            Verified</button>
+                                        <button class="sec-btn-fraud" onclick="markFraud()">Mark as Fraud</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 3: Watchlist & AML Alerts -->
+                        <div class="sec-panel sec-alerts-panel">
+                            <h2>🚨 Watchlist & AML Alerts</h2>
+                            <div id="secAlertsList" class="sec-alerts-list"></div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section id="workflow">
+                    <div class="workflow-grid">
+                        <!-- Dynamic Risk Logic -->
+                        <div class="card wf-card">
+                            <h2>⚙️ Dynamic Risk Logic</h2>
+                            <div class="risk-gauge-container">
+                                <div class="risk-gauge" id="riskGauge">
+                                    <div class="risk-gauge-cover" id="riskGaugeCover">—</div>
+                                </div>
+                                <p class="risk-label" id="riskLabel">No application selected</p>
+                            </div>
+                            <div id="riskReasons" class="risk-reasons"></div>
+                            <button id="btnCalcRisk" onclick="calculateRiskForSelected()" disabled>Calculate
+                                Risk</button>
+                        </div>
+
+                        <!-- Customer Applications -->
+                        <div class="card wf-card">
+                            <h2>📋 Customer Applications</h2>
+                            <h3 class="wf-subheading">Ready for Approval</h3>
+                            <div id="readyList" class="app-list"></div>
+                            <h3 class="wf-subheading" style="margin-top:18px;">Escalated / Hand-Offs</h3>
+                            <div id="escalatedList" class="app-list"></div>
+                            <h3 class="wf-subheading" style="margin-top:18px;">📁 Completed</h3>
+                            <div id="completedList" class="app-list"></div>
+                        </div>
+
+                        <!-- Application Decision -->
+                        <div class="card wf-card">
+                            <h2>📝 Application Decision</h2>
+                            <div id="decisionDetail" class="decision-detail">
+                                <p class="placeholder-text">Click <strong>Review</strong> on an application to view
+                                    details here.</p>
+                            </div>
+                            <div class="decision-actions" id="decisionActions" style="display:none;">
+                                <button class="btn-approve" onclick="approveApplication()">Approve (Activate
+                                    Account)</button>
+                                <button class="btn-reject" onclick="rejectApplication()">Reject (Deny)</button>
+                            </div>
+                        </div>
+
+                        <!-- Audit Trail -->
+                        <div class="card wf-card">
+                            <h2>🛡️ Compliance Audit Trail</h2>
+                            <div id="auditTrailContainer" class="audit-trail-container">
+                                <p class="placeholder-text">Select an application to view its audit trail.</p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+
+                <section id="compliance">
+                    <div class="compliance-layout">
+                        <!-- Panel A: Immutable Audit Ledger -->
+                        <div class="card compliance-card compliance-full">
+                            <div class="compliance-header">
+                                <h2>🔒 Immutable Audit Ledger</h2>
+                                <!-- <span class="ledger-badge">Blockchain-Verified</span> -->
+                            </div>
+                            <p class="compliance-desc">Chronological log of every system action for regulatory
+                                compliance (RBI/KYC/AML).</p>
+                            <div class="ledger-table-wrap" id="ledgerTableWrap">
+                                <table class="ledger-table" id="ledgerTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Timestamp</th>
+                                            <th>Actor</th>
+                                            <th>Action Type</th>
+                                            <th>Details</th>
+                                            <th>Hash</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ledgerBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Panel B: Automated Decisioning Engine -->
+                        <div class="card compliance-card compliance-full">
+                            <div class="compliance-header">
+                                <h2>Automated Decisioning Engine</h2>
+                                <span class="ledger-badge engine-badge">AI Logic</span>
+                            </div>
+                            <p class="compliance-desc">Transparent view of every automated decision — showing exactly
+                                <strong>why</strong> the system approved, flagged, or rejected each applicant.
+                            </p>
+                            <div id="decisionFeed" class="decision-feed"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="analytics">
+                    <div class="analytics-dashboard">
+
+                        <!-- Row 1: KPI Cards -->
+                        <div class="kpi-row">
+                            <div class="kpi-card">
+                                <div class="kpi-icon">👥</div>
+                                <div class="kpi-body">
+                                    <span class="kpi-value" id="kpiOnboarded">1,250</span>
+                                    <span class="kpi-label">Total Onboarded</span>
+                                </div>
+                                <span class="kpi-trend trend-up">▲ +12%</span>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-icon">⏱️</div>
+                                <div class="kpi-body">
+                                    <span class="kpi-value" id="kpiTime">3m 45s</span>
+                                    <span class="kpi-label">Avg. Time-to-Onboard</span>
+                                </div>
+                                <span class="kpi-trend trend-down">▼ -8%</span>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-icon">📈</div>
+                                <div class="kpi-body">
+                                    <span class="kpi-value" id="kpiConversion">68%</span>
+                                    <span class="kpi-label">Conversion Rate</span>
+                                </div>
+                                <span class="kpi-trend trend-up">▲ +3.2%</span>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-icon">🛡️</div>
+                                <div class="kpi-body">
+                                    <span class="kpi-value" id="kpiFraud">4.2%</span>
+                                    <span class="kpi-label">Fraud Block Rate</span>
+                                </div>
+                                <span class="kpi-trend trend-neutral">— Stable</span>
+                            </div>
+                        </div>
+
+                        <!-- Row 2: Charts -->
+                        <div class="charts-row">
+                            <div class="card chart-card chart-main">
+                                <h2>Onboarding Funnel</h2>
+                                <p class="chart-subtitle">Conversion at each stage — where are users dropping off?</p>
+                                <canvas id="funnelChart"></canvas>
+                                <div id="funnelInsight" class="chart-insight"></div>
+                            </div>
+                            <div class="card chart-card chart-side">
+                                <h2>Time-to-Complete</h2>
+                                <p class="chart-subtitle">Distribution of onboarding duration across all users</p>
+                                <canvas id="timeChart"></canvas>
+                                <div id="timeInsight" class="chart-insight"></div>
+                            </div>
+                        </div>
+
+                        <!-- Row 3: Friction Analysis -->
+                        <div class="card friction-panel">
+                            <div class="compliance-header">
+                                <h2>🔍 Top Friction Points</h2>
+                                <span class="ledger-badge engine-badge">AI Insights</span>
+                            </div>
+                            <p class="compliance-desc">System-detected bottlenecks impacting onboarding success rates.
+                            </p>
+                            <div id="frictionList" class="friction-list"></div>
+                        </div>
+
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div id="customerPortal" style="display:none;">
+        <div class="layout">
+            <aside class="sidebar">
+                <h2 class="logo">GovBank</h2>
+                <button onclick="showCustomerSection('home')">Home</button>
+                <button onclick="showCustomerSection('openAccount')">Open Account</button>
+                <button onclick="showCustomerSection('loan')">Apply Loan</button>
+                <button onclick="showCustomerSection('fd')">Open FD</button>
+            </aside>
+
+            <main class="content">
+                <div class="topbar">Government Banking Customer Portal</div>
+
+                <section id="home" class="activeCustomer">
+                    <div class="card">
+                        <h2>Welcome to GovBank Digital Services</h2>
+                        <p>Secure. Trusted. Government Regulated.</p>
+                    </div>
+                </section>
+
+                <section id="openAccount" class="customerSection" style="display:none;">
+                    <div class="card">
+                        <div id="aiIntroScreen">
+                            <h2>AI Digital Account Opening</h2>
+                            <p>Welcome to GovBank. I will assist you in securely opening your savings account.</p>
+                            <button class="primary-btn" onclick="startOnboarding()">Start Secure Verification</button>
+                        </div>
+
+                        <div id="stepContent" style="display:none;">
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progressFill"></div>
+                                </div>
+                                <p id="stepLabel">Step 1 of 4</p>
+                            </div>
+
+                            <div id="stepMessage"></div>
+
+                            <div id="formArea" style="margin-top:20px;"></div>
+
+                            <button class="primary-btn" id="nextBtn" onclick="nextStep()"
+                                style="margin-top: 20px;">Continue</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="loan" class="customerSection" style="display:none;">
+                    <div class="card">
+                        <h2>Loan Application</h2>
+                        <button onclick="simulateLoan()">Check Eligibility</button>
+                        <p id="loanResult"></p>
+                    </div>
+                </section>
+
+                <section id="fd" class="customerSection" style="display:none;">
+                    <div class="card">
+                        <h2>Fixed Deposit</h2>
+                        <button onclick="simulateFD()">Open FD</button>
+                        <p id="fdResult"></p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

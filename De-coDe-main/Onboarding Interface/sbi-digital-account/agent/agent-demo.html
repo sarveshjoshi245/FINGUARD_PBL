@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBI AI Agent — Demo</title>
+    <link rel="stylesheet" href="agent-widget.css">
+    <style>
+        /* ---- Minimal Dashboard Simulator ---- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, sans-serif;
+            background: #eef1f5;
+            color: #222;
+        }
+
+        .demo-header {
+            background: linear-gradient(135deg, #002147 0%, #003366 100%);
+            color: #fff;
+            padding: 16px 24px;
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .demo-header span {
+            font-size: 13px;
+            font-weight: 400;
+            opacity: 0.7;
+            margin-left: auto;
+        }
+
+        .demo-body {
+            max-width: 720px;
+            margin: 30px auto;
+            margin-right: 380px;
+            /* leave space for agent sidebar */
+            padding: 0 20px;
+        }
+
+        .demo-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            margin-bottom: 20px;
+        }
+
+        .demo-card h2 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #002147;
+        }
+
+        .demo-card p {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .demo-step-nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .demo-step-btn {
+            padding: 8px 16px;
+            border: 2px solid #002147;
+            background: #fff;
+            color: #002147;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .demo-step-btn:hover,
+        .demo-step-btn.active {
+            background: #002147;
+            color: #fff;
+        }
+
+        .demo-form {
+            margin-top: 20px;
+        }
+
+        .demo-form-group {
+            margin-bottom: 14px;
+        }
+
+        .demo-form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .demo-form-group input,
+        .demo-form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .demo-form-group input:focus,
+        .demo-form-group select:focus {
+            border-color: #002147;
+            outline: none;
+        }
+
+        .demo-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .demo-primary-btn {
+            padding: 10px 24px;
+            background: #002147;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .demo-primary-btn:hover {
+            background: #003366;
+        }
+
+        .demo-info {
+            background: #e3f2fd;
+            padding: 14px 18px;
+            border-radius: 8px;
+            border-left: 4px solid #1976d2;
+            font-size: 13px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        #stepContent {
+            min-height: 200px;
+        }
+
+        @media (max-width: 768px) {
+            .demo-body {
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="demo-header">
+        🏦 FINGUARD — Digital Account Opening
+        <span>Agent Demo Page</span>
+    </div>
+
+    <div class="demo-body">
+
+        <div class="demo-card">
+            <h2>🧪 Step Simulator</h2>
+            <p>Click a step below to simulate navigating through the onboarding flow. The AI agent on the right will
+                update its guidance automatically.</p>
+            <div class="demo-step-nav">
+                <button class="demo-step-btn active" onclick="goToStep(0)">Welcome</button>
+                <button class="demo-step-btn" onclick="goToStep(1)">1. Personal</button>
+                <button class="demo-step-btn" onclick="goToStep(2)">2. Documents</button>
+                <button class="demo-step-btn" onclick="goToStep(3)">3. Face</button>
+                <button class="demo-step-btn" onclick="goToStep(4)">4. Income</button>
+                <button class="demo-step-btn" onclick="goToStep(5)">5. Risk</button>
+                <button class="demo-step-btn" onclick="goToStep(6)">6. Complete</button>
+            </div>
+        </div>
+
+        <div class="demo-card" id="stepContent">
+            <!-- Dynamic step content goes here -->
+        </div>
+
+        <div class="demo-card demo-info">
+            <strong>💡 Integration Guide</strong><br><br>
+            To add this agent to your actual dashboard, just include these 2 lines:
+            <pre
+                style="margin-top:8px; background:#f5f5f5; padding:10px; border-radius:4px; font-size:12px; overflow-x:auto;">&lt;link rel="stylesheet" href="agent-widget.css"&gt;
+&lt;script src="agent-widget.js"&gt;&lt;/script&gt;</pre>
+            Then call <code>window.SBIAgent.setStep(n)</code> when the user moves between steps.
+        </div>
+    </div>
+
+    <!-- Agent Widget — Just 2 lines! -->
+    <script>
+        // Optional: configure API base before loading widget
+        window.SBI_AGENT_CONFIG = { apiBase: 'http://localhost:3000' };
+    </script>
+    <script src="agent-widget.js"></script>
+
+    <!-- Demo Step Simulator Logic -->
+    <script>
+        const STEP_FORMS = {
+            0: `
+                <h2>👋 Welcome to FINGUARD</h2>
+                <p>Secure. Trusted. Government Regulated.</p>
+                <p style="margin-top:10px; color:#555;">AI-powered onboarding with real-time KYC, biometric verification, and intelligent risk scoring.</p>
+                <div class="demo-actions">
+                    <button class="demo-primary-btn" onclick="goToStep(1)">Start Account Opening →</button>
+                </div>
+            `,
+            1: `
+                <h2>📝 Step 1 — Enter Personal Details</h2>
+                <div class="demo-form">
+                    <div class="demo-form-group"><label>Full Name</label><input type="text" placeholder="e.g. Rajesh Kumar"></div>
+                    <div class="demo-form-group"><label>Aadhaar Number (12 Digits)</label><input type="text" placeholder="e.g. 1234 5678 9012" maxlength="14"></div>
+                    <div class="demo-form-group"><label>PAN Number (10 Chars)</label><input type="text" placeholder="e.g. ABCDE1234F" maxlength="10" style="text-transform:uppercase;"></div>
+                    <div class="demo-form-group"><label>Mobile Number</label><input type="text" placeholder="e.g. 9876543210" maxlength="10"></div>
+                </div>
+                <div class="demo-actions">
+                    <button class="demo-primary-btn" onclick="goToStep(2)">Verify & Continue →</button>
+                </div>
+            `,
+            2: `
+                <h2>🆔 Step 2 — Document Upload</h2>
+                <div class="demo-form">
+                    <div class="demo-form-group">
+                        <label>Upload Aadhaar Card</label>
+                        <input type="file" accept="image/*,.pdf">
+                    </div>
+                    <div class="demo-form-group">
+                        <label>Upload PAN Card</label>
+                        <input type="file" accept="image/*,.pdf">
+                    </div>
+                </div>
+                <div class="demo-actions">
+                    <button class="demo-primary-btn" onclick="goToStep(3)">Verify Documents →</button>
+                </div>
+            `,
+            3: `
+                <h2>📷 Step 3 — Face Verification</h2>
+                <div style="text-align:center; padding:30px; background:#f5f5f5; border-radius:8px;">
+                    <p style="font-size:48px;">📷</p>
+                    <p style="margin-top:10px; color:#666;">Camera preview would appear here</p>
+                    <button class="demo-primary-btn" style="margin-top:15px;" onclick="goToStep(4)">✅ Face Verified — Continue →</button>
+                </div>
+            `,
+            4: `
+                <h2>💼 Step 4 — Income & Employment</h2>
+                <div class="demo-form">
+                    <div class="demo-form-group">
+                        <label>Annual Income</label>
+                        <select>
+                            <option>-- Select --</option>
+                            <option>Below ₹1 Lakh</option>
+                            <option>₹1 - 5 Lakh</option>
+                            <option>₹5 - 10 Lakh</option>
+                            <option>Above ₹10 Lakh</option>
+                        </select>
+                    </div>
+                    <div class="demo-form-group">
+                        <label>Employment Type</label>
+                        <select>
+                            <option>-- Select --</option>
+                            <option>Salaried</option>
+                            <option>Self-Employed</option>
+                            <option>Business Owner</option>
+                            <option>Student</option>
+                            <option>Retired</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-actions">
+                    <button class="demo-primary-btn" onclick="goToStep(5)">Run Risk Assessment →</button>
+                </div>
+            `,
+            5: `
+                <h2>⚖️ Step 5 — Risk Assessment</h2>
+                <div style="text-align:center; padding:30px;">
+                    <p style="font-size:48px;">⏳</p>
+                    <p style="margin-top:10px; color:#666;">Running AI risk analysis...</p>
+                    <button class="demo-primary-btn" style="margin-top:15px;" onclick="goToStep(6)">✅ Assessment Complete →</button>
+                </div>
+            `,
+            6: `
+                <h2>🎉 Application Submitted!</h2>
+                <div style="padding:20px; background:#e8f5e9; border-radius:8px; text-align:center;">
+                    <p style="font-size:36px;">✅</p>
+                    <p style="font-size:16px; font-weight:600; color:#2e7d32; margin-top:10px;">Your account application has been submitted successfully.</p>
+                    <p style="color:#555; margin-top:8px;">You will receive a confirmation via SMS and email.</p>
+                </div>
+                <div class="demo-actions" style="justify-content:center;">
+                    <button class="demo-primary-btn" onclick="goToStep(0)">← Start Over</button>
+                </div>
+            `
+        };
+
+        function goToStep(n) {
+            // Update content
+            document.getElementById('stepContent').innerHTML = STEP_FORMS[n] || STEP_FORMS[0];
+
+            // Update active button
+            document.querySelectorAll('.demo-step-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === n);
+            });
+
+            // Tell the agent
+            if (window.SBIAgent) {
+                window.SBIAgent.setStep(n);
+            }
+        }
+
+        // Initialize with welcome
+        goToStep(0);
+    </script>
+
+</body>
+
+</html>

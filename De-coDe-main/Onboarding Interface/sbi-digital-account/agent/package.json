@@ -1,0 +1,17 @@
+{
+  "name": "sbi-digital-account",
+  "version": "1.0.0",
+  "description": "AI-Driven Digital Onboarding & Risk Platform - GovBank AI",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "js-yaml": "^4.1.0",
+    "openai": "^4.78.1"
+  }
+}

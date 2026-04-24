@@ -1,0 +1,505 @@
+{
+  "applications": [
+    {
+      "name": "Geeta",
+      "aadhar": "223456789012",
+      "pan": "ABCDT1234G",
+      "mobile": "9270130716",
+      "timestamp": "20/02/2026, 11:43 am",
+      "ocr_status": "Verified",
+      "biometric_score": 92,
+      "watchlist_hit": false,
+      "risk_score": 50,
+      "risk_classification": "Manual Review Required",
+      "risk_breakdown": [
+        "Base Digital Submission Risk: +15",
+        "Income < 10L: +15",
+        "Face Score < 95%: +20"
+      ],
+      "status": "Approved",
+      "income": "Not Specified",
+      "employmentType": "Not Specified",
+      "hand_off_reason": null,
+      "audit_trail": [
+        "20/02/2026, 11:43 am: Application submitted via digital portal",
+        "20/02/2026, 11:43 am: Aadhaar OCR scan completed",
+        "20/02/2026, 11:43 am: PAN verification completed",
+        "20/02/2026, 11:43 am: Face match score: 92%",
+        "20/02/2026, 11:43 am: Risk assessment — Score: 50/100 (Manual Review Required)",
+        "05:17 PM: Admin opened application for review",
+        "20/2/2026, 5:17:55 pm: Application manually approved by admin"
+      ],
+      "id": 1771568019119
+    },
+    {
+      "name": "Rohan",
+      "aadhar": "315343949462",
+      "pan": "ABCDT1234G",
+      "mobile": "7385260405",
+      "timestamp": "20/02/2026, 12:25 pm",
+      "ocr_status": "Verified",
+      "biometric_score": 53,
+      "watchlist_hit": false,
+      "risk_score": 70,
+      "risk_classification": "High Risk - Escalated",
+      "risk_breakdown": [
+        "Base Digital Submission Risk: +15",
+        "Income < 10L: +15",
+        "Face Score < 95%: +40"
+      ],
+      "status": "Approved",
+      "income": "Not Specified",
+      "employmentType": "Not Specified",
+      "hand_off_reason": null,
+      "audit_trail": [
+        "20/02/2026, 12:25 pm: Application submitted via digital portal",
+        "20/02/2026, 12:25 pm: Aadhaar OCR scan completed",
+        "20/02/2026, 12:25 pm: PAN verification completed",
+        "20/02/2026, 12:25 pm: Face match score: 53%",
+        "20/02/2026, 12:25 pm: Risk assessment — Score: 70/100 (High Risk - Escalated)",
+        "12:32 PM: Admin opened application for review",
+        "12:32 PM: Risk Engine re-executed by Admin — Score: 55 (Manual Review Required)",
+        "12:32 PM: Risk Engine re-executed by Admin — Score: 55 (Manual Review Required)",
+        "20/2/2026, 12:33:25 pm: Application manually approved by admin"
+      ],
+      "id": 1771570548100
+    },
+    {
+      "name": "Rohan",
+      "aadhar": "315343949462",
+      "pan": "ABCDT1234G",
+      "mobile": "7385260405",
+      "timestamp": "20/02/2026, 05:15 pm",
+      "ocr_status": "Verified",
+      "biometric_score": 29,
+      "watchlist_hit": false,
+      "risk_score": 70,
+      "risk_classification": "High Risk - Escalated",
+      "risk_breakdown": [
+        "Base Digital Submission Risk: +15",
+        "Income < 10L: +15",
+        "Face Score < 95%: +40"
+      ],
+      "status": "Approved",
+      "income": "Not Specified",
+      "employmentType": "Not Specified",
+      "hand_off_reason": null,
+      "audit_trail": [
+        "20/02/2026, 05:15 pm: Application submitted via digital portal",
+        "20/02/2026, 05:15 pm: Aadhaar OCR scan completed",
+        "20/02/2026, 05:15 pm: PAN verification completed",
+        "20/02/2026, 05:15 pm: Face match score: 29%",
+        "20/02/2026, 05:15 pm: Risk assessment — Score: 70/100 (High Risk - Escalated)",
+        "06:46 PM: Admin opened application for review",
+        "25/2/2026, 6:46:17 pm: Application manually approved by admin"
+      ],
+      "id": 1771587950967
+    },
+    {
+      "name": "Rohan",
+      "aadhar": "315343949462",
+      "pan": "ABCDT1234G",
+      "mobile": "7385260405",
+      "timestamp": "25/02/2026, 06:22 pm",
+      "ocr_status": "Verified",
+      "biometric_score": 94,
+      "watchlist_hit": false,
+      "risk_score": 50,
+      "risk_classification": "Manual Review Required",
+      "risk_breakdown": [
+        "Base Digital Submission Risk: +15",
+        "Income < 10L: +15",
+        "Face Score < 95%: +20"
+      ],
+      "status": "Flagged",
+      "income": "Not Specified",
+      "employmentType": "Not Specified",
+      "hand_off_reason": null,
+      "audit_trail": [
+        "25/02/2026, 06:22 pm: Application submitted via digital portal",
+        "25/02/2026, 06:22 pm: Aadhaar OCR scan completed",
+        "25/02/2026, 06:22 pm: PAN verification completed",
+        "25/02/2026, 06:22 pm: Face match score: 94%",
+        "25/02/2026, 06:22 pm: Risk assessment — Score: 50/100 (Manual Review Required)"
+      ],
+      "id": 1772023926267
+    },
+    {
+      "name": "Rohan",
+      "aadhar": "315343949462",
+      "pan": "ABCDT1234G",
+      "mobile": "7385260405",
+      "timestamp": "25/02/2026, 06:43 pm",
+      "ocr_status": "Verified",
+      "biometric_score": 99,
+      "watchlist_hit": false,
+      "risk_score": 30,
+      "risk_classification": "Manual Review Required",
+      "risk_breakdown": [
+        "Base Digital Submission Risk: +15",
+        "Income < 10L: +15"
+      ],
+      "status": "Flagged",
+      "income": "Not Specified",
+      "employmentType": "Not Specified",
+      "hand_off_reason": null,
+      "audit_trail": [
+        "25/02/2026, 06:43 pm: Application submitted via digital portal",
+        "25/02/2026, 06:43 pm: Aadhaar OCR scan completed",
+        "25/02/2026, 06:43 pm: PAN verification completed",
+        "25/02/2026, 06:43 pm: Face match score: 99%",
+        "25/02/2026, 06:43 pm: Risk assessment — Score: 30/100 (Manual Review Required)"
+      ],
+      "id": 1772025220852
+    },
+    {
+      "name": "Rohan",
+      "aadhar": "315343949462",
+      "pan": "ABCDT1234G",
+      "mobile": "7385260405",
+      "timestamp": "25/02/2026, 06:44 pm",
+      "ocr_status": "Verified",
+      "biometric_score": 98,
+      "watchlist_hit": false,
+      "risk_score": 30,
+      "risk_classification": "Manual Review Required",
+      "risk_breakdown": [
+        "Base Digital Submission Risk: +15",
+        "Income < 10L: +15"
+      ],
+      "status": "Flagged",
+      "income": "Not Specified",
+      "employmentType": "Not Specified",
+      "hand_off_reason": null,
+      "audit_trail": [
+        "25/02/2026, 06:44 pm: Application submitted via digital portal",
+        "25/02/2026, 06:44 pm: Aadhaar OCR scan completed",
+        "25/02/2026, 06:44 pm: PAN verification completed",
+        "25/02/2026, 06:44 pm: Face match score: 98%",
+        "25/02/2026, 06:44 pm: Risk assessment — Score: 30/100 (Manual Review Required)"
+      ],
+      "id": 1772025276093
+    },
+    {
+      "name": "Rohan",
+      "aadhar": "315343949462",
+      "pan": "ABCDT1234G",
+      "mobile": "7385260405",
+      "timestamp": "25/02/2026, 08:44 pm",
+      "ocr_status": "Verified",
+      "biometric_score": 92,
+      "watchlist_hit": false,
+      "risk_score": 50,
+      "risk_classification": "Manual Review Required",
+      "risk_breakdown": [
+        "Base Digital Submission Risk: +15",
+        "Income < 10L: +15",
+        "Face Score < 95%: +20"
+      ],
+      "status": "Flagged",
+      "income": "Not Specified",
+      "employmentType": "Not Specified",
+      "hand_off_reason": null,
+      "audit_trail": [
+        "25/02/2026, 08:44 pm: Application submitted via digital portal",
+        "25/02/2026, 08:44 pm: Aadhaar OCR scan completed",
+        "25/02/2026, 08:44 pm: PAN verification completed",
+        "25/02/2026, 08:44 pm: Face match score: 92%",
+        "25/02/2026, 08:44 pm: Risk assessment — Score: 50/100 (Manual Review Required)"
+      ],
+      "id": 1772032450867
+    }
+  ],
+  "auditLogs": [
+    {
+      "timestamp": "20/02/2026, 11:43 am",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Application submitted via digital portal",
+      "applicantName": "Geeta"
+    },
+    {
+      "timestamp": "20/02/2026, 11:43 am",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Aadhaar OCR scan completed",
+      "applicantName": "Geeta"
+    },
+    {
+      "timestamp": "20/02/2026, 11:43 am",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "PAN verification completed",
+      "applicantName": "Geeta"
+    },
+    {
+      "timestamp": "20/02/2026, 11:43 am",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Face match score: 92%",
+      "applicantName": "Geeta"
+    },
+    {
+      "timestamp": "20/02/2026, 11:43 am",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Risk assessment — Score: 50/100 (Manual Review Required)",
+      "applicantName": "Geeta"
+    },
+    {
+      "timestamp": "20/02/2026, 12:25 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Application submitted via digital portal",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "20/02/2026, 12:25 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Aadhaar OCR scan completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "20/02/2026, 12:25 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "PAN verification completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "20/02/2026, 12:25 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Face match score: 53%",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "20/02/2026, 12:25 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Risk assessment — Score: 70/100 (High Risk - Escalated)",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "2026-02-20T07:03:25.254Z",
+      "actor": "Admin",
+      "action": "Decision",
+      "details": "Approved application for Rohan",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "20/02/2026, 05:15 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Application submitted via digital portal",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "20/02/2026, 05:15 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Aadhaar OCR scan completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "20/02/2026, 05:15 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "PAN verification completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "20/02/2026, 05:15 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Face match score: 29%",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "20/02/2026, 05:15 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Risk assessment — Score: 70/100 (High Risk - Escalated)",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "2026-02-20T11:47:55.294Z",
+      "actor": "Admin",
+      "action": "Decision",
+      "details": "Approved application for Geeta",
+      "applicantName": "Geeta"
+    },
+    {
+      "timestamp": "25/02/2026, 06:22 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Application submitted via digital portal",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:22 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Aadhaar OCR scan completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:22 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "PAN verification completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:22 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Face match score: 94%",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:22 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Risk assessment — Score: 50/100 (Manual Review Required)",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:43 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Application submitted via digital portal",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:43 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Aadhaar OCR scan completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:43 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "PAN verification completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:43 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Face match score: 99%",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:43 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Risk assessment — Score: 30/100 (Manual Review Required)",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:44 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Application submitted via digital portal",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:44 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Aadhaar OCR scan completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:44 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "PAN verification completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:44 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Face match score: 98%",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 06:44 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Risk assessment — Score: 30/100 (Manual Review Required)",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "2026-02-25T13:16:17.057Z",
+      "actor": "Admin",
+      "action": "Decision",
+      "details": "Approved application for Rohan",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 08:44 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Application submitted via digital portal",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 08:44 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Aadhaar OCR scan completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 08:44 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "PAN verification completed",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 08:44 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Face match score: 92%",
+      "applicantName": "Rohan"
+    },
+    {
+      "timestamp": "25/02/2026, 08:44 pm",
+      "actor": "System",
+      "action": "Onboarding Event",
+      "details": "Risk assessment — Score: 50/100 (Manual Review Required)",
+      "applicantName": "Rohan"
+    }
+  ],
+  "drafts": {
+    "7385260405": {
+      "currentStep": 2,
+      "tempData": {
+        "name": "Devashri",
+        "aadhar": "315343949462",
+        "pan": "ABCDE1234F",
+        "mobile": "7385260405"
+      },
+      "lastUpdated": "2026-02-25T15:37:52.245Z"
+    },
+    "9270130716": {
+      "currentStep": 5,
+      "tempData": {
+        "name": "Geeta",
+        "aadhar": "223456789012",
+        "pan": "ABCDT1234G",
+        "mobile": "9270130716",
+        "faceMatchScore": 92,
+        "panSignature": "data:image/png;base64,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"
+      },
+      "lastUpdated": "2026-02-20T06:13:35.211Z"
+    }
+  }
+}
