@@ -1,0 +1,31 @@
+{
+  "name": "finguard-backend",
+  "version": "1.0.0",
+  "description": "FINGUARD Backend - AI-Driven Digital Onboarding & Risk Platform",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node src/app.js"
+  },
+  "keywords": [
+    "banking",
+    "onboarding",
+    "ai",
+    "compliance"
+  ],
+  "author": "FINGUARD Team",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "groq-sdk": "^1.2.0",
+    "js-yaml": "^4.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.23.1",
+    "openai": "^4.78.1",
+    "yaml": "^2.9.0",
+    "zod": "^3.25.76"
+  }
+}

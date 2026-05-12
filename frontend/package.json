@@ -1,0 +1,14 @@
+{
+  "name": "finguard-frontend",
+  "version": "1.0.0",
+  "description": "FINGUARD Frontend - Onboarding & Admin Dashboard",
+  "type": "module",
+  "scripts": {
+    "dev": "python -m http.server 5173",
+    "serve": "python -m http.server 5173"
+  },
+  "keywords": ["banking", "onboarding", "dashboard"],
+  "author": "FINGUARD Team",
+  "license": "MIT",
+  "devDependencies": {}
+}

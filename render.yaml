@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: finguard-backend
+    env: node
+    rootDir: "De-coDe-main/Onboarding Interface/sbi-digital-account/agent"
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
