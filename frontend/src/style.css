@@ -856,33 +856,81 @@ button:not(nav button):not(.role-switch button):not(.sidebar button):not(.review
     color: white;
 }
 
-/* HIGH CONTRAST MODE */
+/* PREMIUM DARK MODE */
 body.high-contrast {
-    background: #000 !important;
-    color: #fff !important;
+    background: #0f1219 !important;
+    color: #e2e8f0 !important;
+}
+
+body.high-contrast .content,
+body.high-contrast .topbar {
+    background: #0f1219 !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
 }
 
 body.high-contrast .card,
 body.high-contrast .glass,
 body.high-contrast .hero-section {
-    background: #000 !important;
-    border: 2px solid #fff !important;
-    color: #fff !important;
+    background: #1a1f2b !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+    color: #e2e8f0 !important;
 }
 
 body.high-contrast .primary-btn,
-body.high-contrast .hero-main-btn,
+body.high-contrast .hero-main-btn {
+    background: linear-gradient(135deg, #d4af37, #f3e5ab) !important;
+    color: #111 !important;
+    border: none !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4) !important;
+}
+
 body.high-contrast button {
-    background: #fff !important;
-    color: #000 !important;
-    border: 1px solid #000 !important;
+    color: #cbd5e1 !important;
+}
+
+body.high-contrast .acc-btn.glass {
+    background: #2d3748 !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: #fff !important;
+}
+
+body.high-contrast input,
+body.high-contrast select,
+body.high-contrast textarea {
+    background: #1a1f2b !important;
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
 body.high-contrast h1,
 body.high-contrast h2,
 body.high-contrast h3,
-body.high-contrast p {
-    color: #fff !important;
+body.high-contrast h4 {
+    color: #f8fafc !important;
+}
+
+body.high-contrast p,
+body.high-contrast span,
+body.high-contrast label,
+body.high-contrast li,
+body.high-contrast div {
+    color: #cbd5e1 !important;
+}
+
+body.high-contrast .step-indicator .step {
+    background: #2d3748 !important;
+    color: #a0aec0 !important;
+}
+body.high-contrast .step-indicator .step.active {
+    background: #d4af37 !important;
+    color: #000 !important;
+}
+
+body.high-contrast .sidebar {
+    background: #0a0d14 !important;
+    border-right: 1px solid rgba(255,255,255,0.05) !important;
 }
 
 /* STATUS BADGES */

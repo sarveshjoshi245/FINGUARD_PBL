@@ -20,77 +20,41 @@
     }, window.SBI_AGENT_CONFIG || {});
 
     /* ================= STEP DEFINITIONS ================= */
-    const STEPS = {
-        0: {
-            name: 'Welcome',
-            greeting: "👋 Welcome to FINGUARD Digital Account Opening! I'm your AI assistant and I'll guide you through every step of the process. Click **Start Secure Verification** to begin, or ask me anything!",
-            quickActions: [
-                'What documents do I need?',
-                'How long does this take?',
-                'Is my data secure?'
-            ]
+    const STEPS_LANG = {
+        en: {
+            0: { name: 'Welcome', greeting: "👋 Welcome to FINGUARD Digital Account Opening! I'm your AI assistant and I'll guide you through every step of the process. Click **Start Secure Verification** to begin, or ask me anything!", quickActions: ['What documents do I need?', 'How long does this take?', 'Is my data secure?'] },
+            1: { name: 'Personal Details', greeting: "📝 **Step 1 — Personal Details**\n\nPlease enter your full name, Aadhaar number (12 digits), PAN number (10 characters), and mobile number. I'm here to help if you have any questions!", quickActions: ['What is Aadhaar?', 'What is PAN format?', 'Why do you need my mobile?', 'My name has a spelling issue'] },
+            2: { name: 'Document Upload', greeting: "🆔 **Step 2 — Document Verification**\n\nNow upload or scan your Aadhaar and PAN card. Our OCR technology will read the details automatically. Make sure the document image is clear and well-lit!", quickActions: ['What file formats are accepted?', 'My scan is blurry, what do I do?', 'Can I type details manually?', 'What if OCR gets it wrong?'] },
+            3: { name: 'Face Verification', greeting: "📷 **Step 3 — Face Verification & Liveness**\n\nWe need to verify your identity with a quick face scan. Please ensure good lighting and look directly at the camera. This is a secure biometric check.", quickActions: ['Why do you need face verification?', 'My camera is not working', 'Is my photo stored?', 'What is liveness detection?'] },
+            4: { name: 'Signature Verification', greeting: "✍️ **Step 4 — Signature Verification**\n\nWe need to verify your signature. Please sign on a plain white paper or use the digital pad. We will match it with your pan card signature.", quickActions: ['How do I sign?', 'My signature changed', 'Is digital signature valid?', 'Why do you need this?'] },
+            5: { name: 'Income & Employment', greeting: "💼 **Step 5 — Income & Employment**\n\nAlmost there! Please select your annual income range and employment type. This helps us determine suitable account products for you.", quickActions: ['Why do you need income details?', 'I am a student, what do I select?', 'What if I have multiple income sources?', 'Will this affect my application?'] },
+            6: { name: 'Complete', greeting: "🎉 **Congratulations!**\n\nYour application has been submitted and the AI Risk Assessment is complete. You'll receive a confirmation on your registered mobile and email.", quickActions: ['What is my risk score?', 'When will my account be active?', 'How do I contact support?', 'I want to apply for a loan too'] }
         },
-        1: {
-            name: 'Personal Details',
-            greeting: "📝 **Step 1 — Personal Details**\n\nPlease enter your full name, Aadhaar number (12 digits), PAN number (10 characters), and mobile number. I'm here to help if you have any questions!",
-            quickActions: [
-                'What is Aadhaar?',
-                'What is PAN format?',
-                'Why do you need my mobile?',
-                'My name has a spelling issue'
-            ]
+        hi: {
+            0: { name: 'स्वागत', greeting: "👋 फ़िनगार्ड डिजिटल खाता खोलने में आपका स्वागत है! मैं आपका AI सहायक हूं और हर कदम पर आपका मार्गदर्शन करूंगा। शुरू करने के लिए **डिजिटल खाता खोलना शुरू करें** पर क्लिक करें, या मुझसे कुछ भी पूछें!", quickActions: ['मुझे किन दस्तावेज़ों की आवश्यकता है?', 'इसमें कितना समय लगता है?', 'क्या मेरा डेटा सुरक्षित है?'] },
+            1: { name: 'व्यक्तिगत विवरण', greeting: "📝 **चरण 1 — व्यक्तिगत विवरण**\n\nकृपया अपना पूरा नाम, आधार नंबर (12 अंक), पैन नंबर (10 अक्षर), और मोबाइल नंबर दर्ज करें। यदि आपके कोई प्रश्न हैं तो मैं सहायता के लिए यहाँ हूँ!", quickActions: ['आधार क्या है?', 'पैन का प्रारूप क्या है?', 'आपको मेरे मोबाइल की आवश्यकता क्यों है?', 'मेरे नाम की स्पेलिंग में समस्या है'] },
+            2: { name: 'दस्तावेज़ अपलोड', greeting: "🆔 **चरण 2 — दस्तावेज़ सत्यापन**\n\nअब अपना आधार और पैन कार्ड अपलोड या स्कैन करें। हमारी OCR तकनीक विवरण स्वचालित रूप से पढ़ लेगी। सुनिश्चित करें कि दस्तावेज़ की छवि स्पष्ट हो!", quickActions: ['कौन से फ़ाइल स्वरूप स्वीकार्य हैं?', 'मेरा स्कैन धुंधला है, मैं क्या करूँ?', 'क्या मैं विवरण मैन्युअल रूप से टाइप कर सकता हूँ?', 'यदि OCR गलत पढ़ता है तो क्या होगा?'] },
+            3: { name: 'चेहरा सत्यापन', greeting: "📷 **चरण 3 — चेहरा सत्यापन और लाइवनेस**\n\nहमें एक त्वरित फेस स्कैन के साथ आपकी पहचान सत्यापित करनी होगी। कृपया सुनिश्चित करें कि अच्छी रोशनी हो और सीधे कैमरे की ओर देखें।", quickActions: ['आपको चेहरे के सत्यापन की आवश्यकता क्यों है?', 'मेरा कैमरा काम नहीं कर रहा है', 'क्या मेरी फोटो सहेजी गई है?', 'लाइवनेस डिटेक्शन क्या है?'] },
+            4: { name: 'हस्ताक्षर सत्यापन', greeting: "✍️ **चरण 4 — हस्ताक्षर सत्यापन**\n\nहमें आपके हस्ताक्षर सत्यापित करने होंगे। कृपया एक सादे सफेद कागज पर हस्ताक्षर करें या डिजिटल पैड का उपयोग करें। हम इसे आपके पैन कार्ड के हस्ताक्षर से मिलाएंगे।", quickActions: ['मैं हस्ताक्षर कैसे करूँ?', 'मेरे हस्ताक्षर बदल गए हैं', 'क्या डिजिटल हस्ताक्षर मान्य है?', 'आपको इसकी आवश्यकता क्यों है?'] },
+            5: { name: 'आय और रोजगार', greeting: "💼 **चरण 5 — आय और रोजगार**\n\nबस हो गया! कृपया अपनी वार्षिक आय सीमा और रोजगार के प्रकार का चयन करें। इससे हमें आपके लिए उपयुक्त खाता उत्पाद निर्धारित करने में मदद मिलती है।", quickActions: ['आपको आय विवरण की आवश्यकता क्यों है?', 'मैं एक छात्र हूं, मुझे क्या चुनना चाहिए?', 'अगर मेरे पास आय के कई स्रोत हैं तो क्या होगा?', 'क्या इससे मेरे आवेदन पर असर पड़ेगा?'] },
+            6: { name: 'पूर्ण', greeting: "🎉 **बधाई हो!**\n\nआपका आवेदन जमा कर दिया गया है और AI जोखिम मूल्यांकन पूर्ण हो गया है। आपको अपने पंजीकृत मोबाइल और ईमेल पर एक पुष्टि प्राप्त होगी।", quickActions: ['मेरा जोखिम स्कोर क्या है?', 'मेरा खाता कब सक्रिय होगा?', 'मैं समर्थन से कैसे संपर्क करूँ?', 'मैं ऋण के लिए भी आवेदन करना चाहता हूँ'] }
         },
-        2: {
-            name: 'Document Upload',
-            greeting: "🆔 **Step 2 — Document Verification**\n\nNow upload or scan your Aadhaar and PAN card. Our OCR technology will read the details automatically. Make sure the document image is clear and well-lit!",
-            quickActions: [
-                'What file formats are accepted?',
-                'My scan is blurry, what do I do?',
-                'Can I type details manually?',
-                'What if OCR gets it wrong?'
-            ]
-        },
-        3: {
-            name: 'Face Verification',
-            greeting: "📷 **Step 3 — Face Verification & Liveness**\n\nWe need to verify your identity with a quick face scan. Please ensure good lighting and look directly at the camera. This is a secure biometric check.",
-            quickActions: [
-                'Why do you need face verification?',
-                'My camera is not working',
-                'Is my photo stored?',
-                'What is liveness detection?'
-            ]
-        },
-        4: {
-            name: 'Signature Verification',
-            greeting: "✍️ **Step 4 — Signature Verification**\n\nWe need to verify your signature. Please sign on a plain white paper or use the digital pad. We will match it with your pan card signature.",
-            quickActions: [
-                'How do I sign?',
-                'My signature changed',
-                'Is digital signature valid?',
-                'Why do you need this?'
-            ]
-        },
-        5: {
-            name: 'Income & Employment',
-            greeting: "💼 **Step 5 — Income & Employment**\n\nAlmost there! Please select your annual income range and employment type. This helps us determine suitable account products for you.",
-            quickActions: [
-                'Why do you need income details?',
-                'I am a student, what do I select?',
-                'What if I have multiple income sources?',
-                'Will this affect my application?'
-            ]
-        },
-        6: {
-            name: 'Complete',
-            greeting: "🎉 **Congratulations!**\n\nYour application has been submitted and the AI Risk Assessment is complete. You'll receive a confirmation on your registered mobile and email.",
-            quickActions: [
-                'What is my risk score?',
-                'When will my account be active?',
-                'How do I contact support?',
-                'I want to apply for a loan too'
-            ]
+        mr: {
+            0: { name: 'स्वागत आहे', greeting: "👋 फिनगार्ड डिजिटल खाते उघडण्यात आपले स्वागत आहे! मी तुमचा एआय सहाय्यक आहे आणि प्रक्रियेच्या प्रत्येक टप्प्यावर मी तुम्हाला मार्गदर्शन करेन. सुरू करण्यासाठी **डिजिटल खाते उघडण्यास सुरुवात करा** वर क्लिक करा किंवा मला काहीही विचारा!", quickActions: ['मला कोणती कागदपत्रे लागतील?', 'याला किती वेळ लागेल?', 'माझा डेटा सुरक्षित आहे का?'] },
+            1: { name: 'वैयक्तिक तपशील', greeting: "📝 **चरण 1 — वैयक्तिक तपशील**\n\nकृपया तुमचे पूर्ण नाव, आधार क्रमांक (12 अंक), पॅन क्रमांक (10 अक्षरे), आणि मोबाईल क्रमांक प्रविष्ट करा. तुम्हाला काही प्रश्न असल्यास मी मदतीसाठी येथे आहे!", quickActions: ['आधार म्हणजे काय?', 'पॅन स्वरूप काय आहे?', 'तुम्हाला माझा मोबाईल का हवा आहे?', 'माझ्या नावात स्पेलिंगची समस्या आहे'] },
+            2: { name: 'कागदपत्रे अपलोड', greeting: "🆔 **चरण 2 — कागदपत्र पडताळणी**\n\nआता तुमचे आधार आणि पॅन कार्ड अपलोड किंवा स्कॅन करा. आमचे OCR तंत्रज्ञान तपशील आपोआप वाचेल. कागदपत्राची प्रतिमा स्पष्ट असल्याची खात्री करा!", quickActions: ['कोणते फाईल फॉरमॅट्स स्वीकारले जातात?', 'माझा स्कॅन अस्पष्ट आहे, मी काय करू?', 'मी व्यक्तिचलितपणे तपशील टाइप करू शकतो का?', 'जर OCR ने चुकीचे वाचले तर काय होईल?'] },
+            3: { name: 'चेहरा पडताळणी', greeting: "📷 **चरण 3 — चेहरा पडताळणी आणि थेटपणा**\n\nआम्हाला त्वरित फेस स्कॅनद्वारे तुमची ओळख पडताळून पाहणे आवश्यक आहे. कृपया चांगला प्रकाश असल्याची खात्री करा आणि थेट कॅमेऱ्याकडे पहा.", quickActions: ['तुम्हाला चेहरा पडताळणी का हवी आहे?', 'माझा कॅमेरा काम करत नाही', 'माझा फोटो जतन केला आहे का?', 'लाइव्हनेस डिटेक्शन म्हणजे काय?'] },
+            4: { name: 'स्वाक्षरी पडताळणी', greeting: "✍️ **चरण 4 — स्वाक्षरी पडताळणी**\n\nआम्हाला तुमची स्वाक्षरी पडताळून पाहणे आवश्यक आहे. कृपया साध्या पांढऱ्या कागदावर स्वाक्षरी करा किंवा डिजिटल पॅड वापरा. आम्ही तुमच्या पॅन कार्ड स्वाक्षरीशी ते जुळवू.", quickActions: ['मी स्वाक्षरी कशी करू?', 'माझी स्वाक्षरी बदलली आहे', 'डिजिटल स्वाक्षरी वैध आहे का?', 'तुम्हाला याची का गरज आहे?'] },
+            5: { name: 'उत्पन्न आणि रोजगार', greeting: "💼 **चरण 5 — उत्पन्न आणि रोजगार**\n\nजवळपास पूर्ण झाले! कृपया तुमची वार्षिक उत्पन्न श्रेणी आणि रोजगार प्रकार निवडा. हे आम्हाला तुमच्यासाठी योग्य खाते उत्पादने निर्धारित करण्यात मदत करते.", quickActions: ['तुम्हाला उत्पन्न तपशीलाची का गरज आहे?', 'मी विद्यार्थी आहे, मी काय निवडू?', 'माझ्याकडे उत्पन्नाचे अनेक स्रोत असल्यास काय?', 'याचा माझ्या अर्जावर परिणाम होईल का?'] },
+            6: { name: 'पूर्ण झाले', greeting: "🎉 **अभिनंदन!**\n\nतुमचा अर्ज सबमिट केला गेला आहे आणि AI जोखीम मूल्यांकन पूर्ण झाले आहे. तुम्हाला तुमच्या नोंदणीकृत मोबाईल आणि ईमेलवर पुष्टीकरण मिळेल.", quickActions: ['माझा जोखीम स्कोअर काय आहे?', 'माझे खाते कधी सक्रिय होईल?', 'मी सपोर्टशी संपर्क कसा साधू?', 'मला कर्जासाठीही अर्ज करायचा आहे'] }
         }
     };
+
+    function getStepData(stepNum) {
+        const lang = window.currentLang || 'en';
+        const steps = STEPS_LANG[lang] || STEPS_LANG['en'];
+        return steps[stepNum] || steps[0];
+    }
 
     /* ================= STATE ================= */
     let currentStep = 0;
@@ -451,7 +415,7 @@
     /* ================= QUICK ACTIONS ================= */
     function renderQuickActions(stepNum) {
         const container = document.getElementById('sbiAgentQuickActions');
-        const step = STEPS[stepNum] || STEPS[0];
+        const step = getStepData(stepNum);
         container.innerHTML = '';
 
         (step.quickActions || []).forEach(text => {
@@ -468,7 +432,7 @@
 
     /* ================= STEP MANAGEMENT ================= */
     function updateStepUI(stepNum) {
-        const step = STEPS[stepNum] || STEPS[0];
+        const step = getStepData(stepNum);
         const badge = document.getElementById('sbiAgentStepBadge');
         const name = document.getElementById('sbiAgentStepName');
 
@@ -482,7 +446,7 @@
     }
 
     function showGreeting(stepNum) {
-        const step = STEPS[stepNum] || STEPS[0];
+        const step = getStepData(stepNum);
         let greeting = step.greeting;
 
         // Proactive prompt for Step 1
@@ -515,7 +479,8 @@
                 body: JSON.stringify({
                     message: userMessage,
                     sessionId: sessionId,
-                    currentStep: currentStep
+                    currentStep: currentStep,
+                    language: window.currentLang || 'en'
                 })
             });
 
@@ -573,6 +538,15 @@
          */
         reset: function () {
             clearChat();
+        },
+
+        /**
+         * Triggered when application language changes.
+         */
+        onLanguageChange: function () {
+            updateStepUI(currentStep);
+            // Re-show greeting in new language
+            showGreeting(currentStep);
         }
     };
 

@@ -98,7 +98,7 @@ exports.adminChat = async (req, res) => {
     ];
 
     const completion = await groqClient.chat.completions.create({
-      model: process.env.GROQ_MODEL || 'mixtral-8x7b-32768',
+      model: process.env.GROQ_MODEL || 'llama-3.1-8b-instant',
       messages: messages,
       max_tokens: 500,
       temperature: parseFloat(process.env.TEMPERATURE || 0.7),
@@ -158,7 +158,7 @@ exports.onboardingChat = async (req, res) => {
     }
 
     const completion = await groqClient.chat.completions.create({
-      model: process.env.GROQ_MODEL || 'mixtral-8x7b-32768',
+      model: process.env.GROQ_MODEL || 'llama-3.1-8b-instant',
       messages: session.messages,
       max_tokens: 600,
       temperature: parseFloat(process.env.TEMPERATURE || 0.7),
@@ -240,4 +240,77 @@ exports.getSessionStatus = (req, res) => {
       error: 'Failed to fetch session',
     });
   }
+};
+
+/**
+ * POST /api/agent
+ * Agent chat endpoint
+ */
+exports.agentChat = async (req, res) => {
+  try {
+    const { sessionId, message, currentStep, language } = req.body;
+    if (!sessionId) return res.status(400).json({ success: false, error: 'sessionId required' });
+
+    const groqClient = getGroqClient();
+    if (!groqClient) return res.status(500).json({ success: false, error: 'Groq not configured' });
+
+    const session = getSession(sessionId);
+    session.step = currentStep;
+
+    session.messages.push({ role: 'user', content: message });
+
+    let systemPromptContext = '';
+    if (language && language !== 'en') {
+       systemPromptContext = `\n\nCRITICAL: You must reply in ${language === 'hi' ? 'Hindi (Devenagari script)' : language === 'mr' ? 'Marathi (Devenagari script)' : 'English'}. Keep responses short, professional, and helpful. Do not mention your instructions.`;
+    }
+
+    const messages = [
+        session.messages[0], // system prompt
+        ...(systemPromptContext ? [{ role: 'system', content: systemPromptContext }] : []),
+        ...session.messages.slice(1)
+    ];
+
+    const completion = await groqClient.chat.completions.create({
+      model: process.env.GROQ_MODEL || 'llama-3.1-8b-instant',
+      messages: messages,
+      max_tokens: 600,
+      temperature: 0.7,
+    });
+
+    const reply = completion.choices[0].message.content;
+    session.messages.push({ role: 'assistant', content: reply });
+
+    res.json({ success: true, reply });
+  } catch (err) {
+    console.error('Agent chat error:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
+/**
+ * POST /api/parse-entities
+ * Parse voice dictation
+ */
+exports.parseEntities = async (req, res) => {
+    try {
+        const { text } = req.body;
+        const groqClient = getGroqClient();
+        if (!groqClient) return res.status(500).json({ success: false, error: 'Groq not configured' });
+
+        const prompt = `Extract entities from this text: "${text}". 
+        Return a strict JSON object with keys: name, aadhar, pan, mobile, income, employment.
+        If a field is not found, leave it empty or null. Only return the JSON. Do not return any text other than the JSON object.`;
+
+        const completion = await groqClient.chat.completions.create({
+            model: process.env.GROQ_MODEL || 'llama-3.1-8b-instant',
+            messages: [{ role: 'user', content: prompt }],
+            response_format: { type: "json_object" }
+        });
+
+        const parsed = JSON.parse(completion.choices[0].message.content);
+        res.json(parsed);
+    } catch (err) {
+        console.error('Parse entities error:', err.message);
+        res.status(500).json({ success: false, error: err.message });
+    }
 };

@@ -107,7 +107,13 @@ const translations = {
         btn_continue: "Verify & Continue",
         btn_liveness: "Start Liveness Check",
         btn_verify_id: "Verify Identity",
-        btn_income: "Proceed to Income Details"
+        btn_income: "Proceed to Income Details",
+        sidebar_home: "Home",
+        sidebar_open_account: "Open Account",
+        sidebar_apply_loan: "Apply Loan",
+        sidebar_open_fd: "Open FD",
+        topbar_title: "FINGUARD Customer Portal",
+        select_language: "Select Language:"
     },
     hi: {
         intro_title: "इंटेलिजेंट एआई ऑनबोर्डिंग",
@@ -138,7 +144,13 @@ const translations = {
         btn_continue: "सत्यापित करें और जारी रखें",
         btn_liveness: "लाइवनेस चेक शुरू करें",
         btn_verify_id: "पहचान सत्यापित करें",
-        btn_income: "आय विवरण पर आगे बढ़ें"
+        btn_income: "आय विवरण पर आगे बढ़ें",
+        sidebar_home: "होम",
+        sidebar_open_account: "खाता खोलें",
+        sidebar_apply_loan: "ऋण आवेदन करें",
+        sidebar_open_fd: "एफडी खोलें",
+        topbar_title: "फ़िनगार्ड ग्राहक पोर्टल",
+        select_language: "भाषा चुनें:"
     },
     mr: {
         intro_title: "इंटेलिजेंट एआय ऑनबोर्डिंग",
@@ -169,7 +181,13 @@ const translations = {
         btn_continue: "पडताळणी करा आणि पुढे जा",
         btn_liveness: "थेट पडताळणी सुरू करा",
         btn_verify_id: "ओळख पडताळणी करा",
-        btn_income: "उत्पन्न तपशीलावर पुढे जा"
+        btn_income: "उत्पन्न तपशीलावर पुढे जा",
+        sidebar_home: "मुख्यपृष्ठ",
+        sidebar_open_account: "खाते उघडा",
+        sidebar_apply_loan: "कर्जासाठी अर्ज करा",
+        sidebar_open_fd: "एफडी उघडा",
+        topbar_title: "फिनगार्ड ग्राहक पोर्टल",
+        select_language: "भाषा निवडा:"
     }
 };
 
@@ -177,6 +195,12 @@ function setLanguage(lang) {
     currentLang = lang;
     console.log("🌐 Language set to:", lang);
     applyTranslations();
+    
+    // Notify chatbot to update its language
+    if (window.SBIAgent && typeof window.SBIAgent.onLanguageChange === 'function') {
+        window.SBIAgent.onLanguageChange();
+    }
+
     if (document.getElementById("aiIntroScreen").style.display !== "none") {
         updateIntroText();
     } else {
@@ -186,6 +210,25 @@ function setLanguage(lang) {
 
 function applyTranslations() {
     const t = translations[currentLang];
+    if (!t) return;
+
+    // Sidebar Navigation
+    const btnHome = document.querySelector(".sidebar button[onclick*='home']");
+    if (btnHome) btnHome.innerText = t.sidebar_home;
+    const btnOpenAcc = document.querySelector(".sidebar button[onclick*='openAccount']");
+    if (btnOpenAcc) btnOpenAcc.innerText = t.sidebar_open_account;
+    const btnLoan = document.querySelector(".sidebar button[onclick*='loan']");
+    if (btnLoan) btnLoan.innerText = t.sidebar_apply_loan;
+    const btnFd = document.querySelector(".sidebar button[onclick*='fd']");
+    if (btnFd) btnFd.innerText = t.sidebar_open_fd;
+
+    // Topbar Text
+    const topbarTitle = document.querySelector(".topbar > span");
+    if (topbarTitle) topbarTitle.innerText = t.topbar_title;
+    const langSelect = document.querySelector(".topbar select");
+    if (langSelect && langSelect.previousElementSibling) {
+        langSelect.previousElementSibling.innerText = t.select_language;
+    }
 }
 
 function updateIntroText() {

@@ -121,6 +121,8 @@ app.post('/api/chat', require('./controllers/chatController').adminChat);
 app.post('/api/onboarding', require('./controllers/chatController').onboardingChat);
 app.post('/api/onboarding/reset', require('./controllers/chatController').resetOnboarding);
 app.get('/api/onboarding/session/:sessionId', require('./controllers/chatController').getSessionStatus);
+app.post('/api/agent', require('./controllers/chatController').agentChat);
+app.post('/api/parse-entities', require('./controllers/chatController').parseEntities);
 
 // ================= HEALTH CHECK =================
 app.get('/api/health', (req, res) => {
