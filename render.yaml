@@ -2,11 +2,26 @@ services:
   - type: web
     name: finguard-backend
     env: node
-    rootDir: "De-coDe-main/Onboarding Interface/sbi-digital-account/agent"
+    rootDir: backend
     buildCommand: npm install
     startCommand: npm start
+    healthCheckPath: /health
     envVars:
-      - key: GROQ_API_KEY
-        sync: false
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
+      - key: DB_TYPE
+        value: mongodb
+      - key: CORS_ORIGIN
+        value: "*"

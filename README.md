@@ -162,3 +162,115 @@ MIT License - See LICENSE file for details
 ## 👨‍💻 Authors
 
 FINGUARD Development Team
+
+---
+
+## ☁️ Deployment Guide
+
+### Stack
+| Layer | Platform |
+|---|---|
+| Frontend | **Vercel** (static hosting) |
+| Backend | **Render** (Node.js web service) |
+| Database | **MongoDB Atlas** (free M0 cluster) |
+
+---
+
+### Step 1 — MongoDB Atlas
+
+1. Log in at [cloud.mongodb.com](https://cloud.mongodb.com)
+2. **Network Access** → Add IP: `0.0.0.0/0` (allow all — needed for Render dynamic IPs)
+3. **Database Access** → verify your user has `readWrite` on `finguard_db`
+4. **Connect** → copy the `mongodb+srv://...` connection string
+
+---
+
+### Step 2 — Render (Backend)
+
+1. Connect your GitHub repo at [render.com](https://render.com)
+2. **New → Web Service**
+3. Settings:
+   - **Root Directory**: `backend`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+   - **Health Check Path**: `/health`
+4. **Environment Variables** (set in Render dashboard):
+   ```
+   NODE_ENV=production
+   PORT=10000
+   MONGODB_URI=<your Atlas URI>
+   MONGO_URI=<same Atlas URI>
+   JWT_SECRET=<generate a strong random string>
+   GROQ_API_KEY=<your key from console.groq.com>
+   GROQ_MODEL=llama-3.1-8b-instant
+   DB_TYPE=mongodb
+   CORS_ORIGIN=*
+   ```
+5. Deploy → wait for logs to show `🏦 FINGUARD Platform running on port 10000`
+6. Note your Render URL: `https://finguard-backend.onrender.com`
+
+---
+
+### Step 3 — Update Frontend API URL
+
+Before deploying to Vercel, open `frontend/src/index.html` and update the config block:
+
+```html
+<script>
+    window.SBI_AGENT_CONFIG = {
+        apiBase: 'https://finguard-backend.onrender.com'  // ← your Render URL
+    };
+</script>
+```
+
+Commit this change.
+
+---
+
+### Step 4 — Vercel (Frontend)
+
+1. Connect your GitHub repo at [vercel.com](https://vercel.com)
+2. **New Project** → import repo
+3. Settings:
+   - **Root Directory**: leave blank (vercel.json at repo root handles routing)
+   - **Framework Preset**: Other
+   - **Build Command**: *(leave empty)*
+   - **Output Directory**: *(leave empty)*
+4. Deploy → Vercel will use `vercel.json` for routing
+5. Note your Vercel URL: `https://finguard.vercel.app`
+
+---
+
+### Step 5 — Post-Deploy Verification
+
+```bash
+# Check backend health
+curl https://finguard-backend.onrender.com/health
+# → {"status":"ok"}
+
+# Check API health
+curl https://finguard-backend.onrender.com/api/health
+# → {"success":true,"status":"running","timestamp":"..."}
+```
+
+Then open your Vercel URL in a browser and verify:
+- ✅ Page loads
+- ✅ Admin login works
+- ✅ AI chat responds
+- ✅ Face-api models load (no 404s in network tab)
+- ✅ Applications submit and appear in admin dashboard
+
+---
+
+### Required Environment Variables Summary
+
+| Variable | Required | Notes |
+|---|---|---|
+| `NODE_ENV` | ✅ | Set to `production` on Render |
+| `PORT` | ✅ | `10000` on Render |
+| `MONGODB_URI` | ✅ | MongoDB Atlas connection string |
+| `JWT_SECRET` | ✅ | Any strong random string |
+| `GROQ_API_KEY` | ✅ | From console.groq.com |
+| `GROQ_MODEL` | ✅ | `llama-3.1-8b-instant` |
+| `DB_TYPE` | ✅ | `mongodb` |
+| `CORS_ORIGIN` | ⚠️ | `*` for demo; set to Vercel URL for production |

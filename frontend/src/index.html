@@ -11,6 +11,17 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="agent/agent-widget.css">
 
+<!-- ===== DEPLOYMENT CONFIG =====
+     In production (Vercel), set apiBase to your Render backend URL:
+     e.g., apiBase: 'https://finguard-backend.onrender.com'
+     Leave as '' for local dev (same-origin, served by Express).
+================================================== -->
+<script>
+    window.SBI_AGENT_CONFIG = {
+        apiBase: ''
+    };
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>

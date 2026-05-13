@@ -1,7 +1,7 @@
 /**
- * FINGUARD Platform - Refactored Entry Point
+ * FINGUARD Platform - Entry Point
  * Main Express application with clean architecture
- * 
+ *
  * Architecture:
  * - Routes → Controllers → Services → Repositories → Models
  * - Config layer for centralized configuration
@@ -11,6 +11,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -34,16 +36,42 @@ const chatRoutes = require('./routes/chatRoutes');
 // ================= APP SETUP =================
 const app = express();
 
-// Middleware
+// ── Security headers (helmet) ──────────────────────────────────────────────
+// contentSecurityPolicy disabled so face-api CDN scripts still load in the
+// browser when the backend also serves the frontend in local/dev mode.
+app.use(helmet({ contentSecurityPolicy: false }));
+
+// ── Rate limiting ──────────────────────────────────────────────────────────
+// 100 requests per 15 minutes per IP — protects API without blocking demos.
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, error: 'Too many requests, please try again later.' },
+});
+app.use('/api/', limiter);
+
+// ── CORS ───────────────────────────────────────────────────────────────────
 app.use(cors({
   origin: appConfig.CORS_ORIGIN || '*',
   credentials: true,
 }));
+
+// ── Body parsers ───────────────────────────────────────────────────────────
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Serve frontend
-app.use(express.static(path.join(__dirname, '../../frontend/src')));
+// ── Serve frontend (local / non-production only) ───────────────────────────
+// On Render (NODE_ENV=production), the frontend is served by Vercel.
+// Skipping avoids a misleading error if the directory doesn't exist on the server.
+if (appConfig.NODE_ENV !== 'production') {
+  const frontendPath = path.join(__dirname, '../../frontend/src');
+  if (fs.existsSync(frontendPath)) {
+    app.use(express.static(frontendPath));
+    console.log('📁 Serving frontend from:', frontendPath);
+  }
+}
 
 // ================= AGENT CONFIGURATION =================
 const AGENT_CONFIG_PATH = path.join(__dirname, 'sbi_onboarding_agent.yaml');
@@ -124,7 +152,13 @@ app.get('/api/onboarding/session/:sessionId', require('./controllers/chatControl
 app.post('/api/agent', require('./controllers/chatController').agentChat);
 app.post('/api/parse-entities', require('./controllers/chatController').parseEntities);
 
-// ================= HEALTH CHECK =================
+// ================= HEALTH CHECKS =================
+// /health — Render's built-in health check (no /api prefix required by Render)
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
+// /api/health — used by frontend and manual checks
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
@@ -135,7 +169,13 @@ app.get('/api/health', (req, res) => {
 
 // ================= FALLBACK ROUTE =================
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../frontend/src/index.html'));
+  const indexPath = path.join(__dirname, '../../frontend/src/index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    // Production: frontend is on Vercel, just confirm API is alive
+    res.json({ success: true, message: 'FINGUARD API is running.' });
+  }
 });
 
 // ================= ERROR HANDLING =================
@@ -148,7 +188,7 @@ app.use((err, req, res, next) => {
 });
 
 // ================= START SERVER =================
-const PORT = appConfig.PORT || 3000;
+const PORT = process.env.PORT || appConfig.PORT || 3000;
 
 async function startServer() {
   try {
@@ -162,10 +202,12 @@ async function startServer() {
 
     // Start listening
     app.listen(PORT, () => {
-      console.log(`\n🏦 FINGUARD Platform running at http://localhost:${PORT}`);
+      console.log(`\n🏦 FINGUARD Platform running on port ${PORT}`);
       console.log(`📋 Agent: ${agentConfig?.name || 'Not configured'}`);
       console.log(`🤖 Model: ${aiConfig.GROQ_MODEL} (Groq)`);
-      console.log(`🔑 Groq API Key: ${aiConfig.GROQ_API_KEY ? '✅ Configured' : '❌ Missing'}\n`);
+      console.log(`🔑 Groq API Key: ${aiConfig.GROQ_API_KEY ? '✅ Configured' : '❌ Missing'}`);
+      console.log(`🗄️  DB Type: ${dbConfig.DB_TYPE}`);
+      console.log(`🌍 ENV: ${appConfig.NODE_ENV}\n`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);

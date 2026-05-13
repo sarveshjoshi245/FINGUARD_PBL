@@ -1,4 +1,4 @@
-# Environment Files
+# Environment Files — NEVER commit these
 .env
 .env.local
 .env.*.local
@@ -6,7 +6,6 @@
 # Dependency directories
 node_modules/
 jspm_packages/
-package-lock.json
 
 # IDEs and editors
 .vscode/
@@ -22,3 +21,14 @@ Thumbs.db
 dist/
 build/
 out/
+
+# Backup files (created during development)
+*.bak
+
+# Temp/test files
+test_output.txt
+test_canvas*.js
+
+# Log files
+*.log
+npm-debug.log*

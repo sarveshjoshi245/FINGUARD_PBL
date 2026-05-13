@@ -256,9 +256,12 @@ const REGEX_PAN = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 const REGEX_MOBILE = /^[6-9]\d{9}$/;
 
 /* ================= API CONFIGURATION ================= */
+// API_BASE reads from window.SBI_AGENT_CONFIG set in index.html.
+// Local dev (served by Express on port 3000): apiBase = '' → same-origin.
+// Vercel production: apiBase = 'https://your-backend.onrender.com'
 const API_BASE = (window.SBI_AGENT_CONFIG && window.SBI_AGENT_CONFIG.apiBase)
     ? window.SBI_AGENT_CONFIG.apiBase
-    : (window.location.port === '3000' ? '' : 'http://localhost:3000');
+    : '';
 
 
 /* ================= OCR ENGINE ================= */
